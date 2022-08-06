@@ -86,6 +86,12 @@ map_pwk(formulas, f, .patchwork_options = list(ncol = 1))
 
 # Map over data.frame rows with pmap_pwk() ----
 
+# plot a geom + data combination
+f <- function(geom, data) {
+  ggplot(data, aes(x, y)) +
+    geom
+}
+
 geoms <- list(
   geom_point(size = .5),
   geom_bin2d(),
@@ -114,15 +120,9 @@ datasets <- list(
 
 )
 
-# plot a geom + data combination
-f <- function(geom, data) {
-  ggplot(data, aes(x, y)) +
-    geom
-}
-
 # cross product between geoms and datasets,
 # saved as a tibble
-df_nested <-
+df_cross <-
   tidyr::expand_grid(
     geom = geoms,
     data = datasets
@@ -130,7 +130,7 @@ df_nested <-
 
 # use pmap_pwk to apply across rows of tibble or data.frame
 # patchwork's `&` to manipulate the patchwork object
-pmap_pwk(df_nested, f, .patchwork_options = list(ncol = 3)) &
+pmap_pwk(df_cross, f, .patchwork_options = list(ncol = 3)) &
   theme(
     legend.position = "none",
     axis.ticks = element_blank(),
