@@ -1,0 +1,173 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  dev = "png", dpi = 300,
+  out.width = "100%"
+)
+```
+
+# ggrrr <img src="man/figures/logo.png"  align="right"  width="120" style="padding-left:10px;background-color:white;" />
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/jamesotto852/ggrrr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jamesotto852/ggrrr/actions/workflows/R-CMD-check.yaml)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-ago/ggrrr)](https://cran.r-project.org/package=TDAvis)
+[![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](<Redirect-URL>)
+<!-- badges: end -->
+
+**ggrrr** provides [**purrr**](https://purrr.tidyverse.org/)-style functions for creating [**patchwork**](https://patchwork.data-imaginist.com/) objects.
+This is primarily achieved with the `map_pwk()` family of functions which wrap around `patchwork::wrap_plots()`,
+although there are also the `map_aln()` functions implemented for `patchwork::align_patches()`.
+
+## Installation
+
+You can install the development version of **ggrrr** from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jamesotto852/ggrrr")
+```
+
+## `map_pwk()`
+
+First, we'll use `map_pwk()` to compare different regression models with `ggplot2::geom_smooth()`.
+Let's start by generating some data:
+
+```{r, message = FALSE}
+library("tidyverse"); theme_set(theme_minimal())
+
+set.seed(1)
+
+df <- 
+  tibble(
+    x = runif(100, -10, 10),
+    y = 2 + x + .2 * x^2  - .05 * x^3+ rnorm(100, sd = 5),
+  )
+
+ggplot(df, aes(x, y)) +
+  geom_point()
+```
+
+Now all we need is a function that generates plots and an object to map over.
+We define `f` which creates a plot with an estimated trend line
+according to the specified `formula`.
+Next, we apply `f` over `formulas` to produce the desired graphic!
+
+```{r, fig.height = 2}
+library("ggrrr")
+
+# f: formula -> ggplot object
+f <- function(formula) {
+  ggplot(df, aes(x, y)) +
+    geom_smooth(formula = formula, method = "lm")
+}
+
+# list of formulas to apply f over
+formulas <- list(
+  y ~ x,
+  y ~ poly(x, 2),
+  y ~ poly(x, 3)
+)
+
+map_pwk(formulas, f)
+
+```
+
+The `map_pwk()` family of functions (`map_pwk()`, `map2_pwk()`, `pmap_pwk()`, etc.) all have a `.patchwork_options` argument.
+This optional argument is a named list, and is passed to `patchwork::align_plots()`.
+This allows for strict control over the layout of the resulting plots.
+Here we show a common use case---setting the number of columns in the grid of plots.
+
+```{r}
+map_pwk(formulas, f, .patchwork_options = list(ncol = 1))
+```
+
+Finally, note that it is often convenient to use **patchwork**'s `&` operator for adding **ggplot** elements to plots in a patchwork:
+
+```{r}
+map_pwk(formulas, f, .patchwork_options = list(ncol = 1)) &
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+
+### A more advanced example with `pmap_pwk()`
+
+Just like **purrr**, there are different functions for different types of inputs.
+For mapping over a `data.frame` (or lists of lists), there is `pmap_pwk()`.
+Here is an example in which `pmap_pwk()` is used to compare histogram and kernel density estimators:
+
+```{r, height = 4}
+# plot a geom + data combination
+f <- function(geom, data) {
+  ggplot(data, aes(x, y)) +
+    geom
+}
+
+geoms <- list(
+  geom_point(size = .5),
+  geom_bin2d(),
+  geom_density2d_filled()
+)
+
+datasets <- list(
+
+  # Unimodal
+  data.frame(
+    x = rnorm(4e3),
+    y = rnorm(4e3)
+  ),
+
+  # Bimodal
+  data.frame(
+    x = rnorm(4e3) + rep(c(-2, 2), length.out = 1e3),
+    y = rnorm(4e3)
+  ),
+
+  # Constrained Support
+  data.frame(
+    x = rexp(4e3),
+    y = rexp(4e3)
+  )
+
+)
+
+# cross product between geoms and datasets,
+# saved as a tibble
+df_cross <-
+  tidyr::expand_grid(
+    geom = geoms,
+    data = datasets
+  )
+
+# use pmap_pwk to apply across rows of tibble or data.frame
+pmap_pwk(df_cross, f, .patchwork_options = list(ncol = 3)) &
+  theme_void() &
+  theme(
+    legend.position = "none",
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_blank()
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+
