@@ -7,13 +7,13 @@
 \alias{pmap_aln}
 \title{Apply a plotting function, returning a list of aligned plots}
 \usage{
-map_aln(.x, .f, ..., .patchwork_options = list())
+map_aln(.x, .f, ...)
 
-imap_aln(.x, .f, ..., .patchwork_options = list())
+imap_aln(.x, .f, ...)
 
-map2_aln(.x, .y, .f, ..., .patchwork_options = list())
+map2_aln(.x, .y, .f, ...)
 
-pmap_aln(.l, .f, ..., .patchwork_options = list())
+pmap_aln(.l, .f, ...)
 }
 \arguments{
 \item{.x}{A list or atomic vector.}

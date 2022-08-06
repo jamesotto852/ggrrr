@@ -51,41 +51,41 @@ NULL
 
 #' @rdname map_aln
 #' @export
-map_aln <- function(.x, .f, ..., .patchwork_options = list()) {
+map_aln <- function(.x, .f, ...) {
 
   p_list <- purrr::map(.x, .f, ...)
 
-  do.call(patchwork::align_plots, c(p_list, .patchwork_options))
+  do.call(patchwork::align_plots, p_list)
 
 }
 
 #' @rdname map_aln
 #' @export
-imap_aln <- function(.x, .f, ..., .patchwork_options = list()) {
+imap_aln <- function(.x, .f, ...) {
 
   p_list <- purrr::imap(.x, .f, ...)
 
-  do.call(patchwork::align_plots, c(p_list, .patchwork_options))
+  do.call(patchwork::align_plots, p_list)
 
 }
 
 #' @rdname map_aln
 #' @export
-map2_aln <- function(.x, .y, .f, ..., .patchwork_options = list()) {
+map2_aln <- function(.x, .y, .f, ...) {
 
   p_list <- purrr::map2(.x, .y, .f, ...)
 
-  do.call(patchwork::align_plots, c(p_list, .patchwork_options))
+  do.call(patchwork::align_plots, p_list)
 
 }
 
 #' @rdname map_aln
 #' @export
-pmap_aln <- function(.l, .f, ..., .patchwork_options = list()) {
+pmap_aln <- function(.l, .f, ...) {
 
   p_list <- purrr::pmap(.l, .f, ...)
 
-  do.call(patchwork::align_plots, c(p_list, .patchwork_options))
+  do.call(patchwork::align_plots, p_list)
 
 }
 

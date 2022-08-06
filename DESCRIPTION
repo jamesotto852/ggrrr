@@ -22,4 +22,5 @@ Depends:
 Imports:
   purrr
 Suggests:
+  ggplot2,
   tidyr
