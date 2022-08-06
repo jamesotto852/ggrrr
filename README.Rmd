@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/jamesotto852/ggrrr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jamesotto852/ggrrr/actions/workflows/R-CMD-check.yaml)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-ago/ggrrr)](https://cran.r-project.org/package=TDAvis)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-ago/ggrrr)](https://cran.r-project.org/package=ggrrr)
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](<Redirect-URL>)
 <!-- badges: end -->
 
