@@ -42,6 +42,12 @@ present, the value of \code{.default} will be returned.}
 
 \item{.patchwork_options}{A list of arguments passed to \code{patchwork::wrap_plots()},
 useful for arranging plots in the resulting patchwork object. See examples for details.}
+
+\item{.y}{A list or atomic vector the same length as \code{.x}.}
+
+\item{.l}{A list of vectors, such as a data frame. The length of \code{.l}
+determines the number of arguments that \code{.f} will be called with. List
+names will be used if present.}
 }
 \value{
 A \code{patchwork} object
@@ -51,7 +57,9 @@ The \verb{*_pwk()} functions apply a function \code{f} element-wise across vario
 converting the output into a patchwork object via \code{patchwork::wrap_plots()}.
 \code{f} should return a \code{ggplot} object, or some other object which works with patchwork
 (e.g. the results of \code{patchwork::wrap_elements()}).
-For details on the use of each function, see \code{?purrr::map}.
+}
+\details{
+For details on the use of each function, see \code{?purrr::map}, \code{?purrr::map2}, etc.
 }
 \examples{
 library("ggplot2")

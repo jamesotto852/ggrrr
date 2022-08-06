@@ -4,7 +4,7 @@
 #' converting the output into a list of plots with equal spacing and alignment via `patchwork::align_patches()`.
 #' `f` should return a `ggplot` object, no other output is allowed.
 #'
-#' @inheritParams purrr::map
+#' @inheritParams map_pwk
 #'
 #' @return A `patchwork` object
 #'

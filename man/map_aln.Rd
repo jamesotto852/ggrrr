@@ -39,6 +39,12 @@ by position and name at different levels. If a component is not
 present, the value of \code{.default} will be returned.}
 
 \item{...}{Additional arguments passed on to the mapped function.}
+
+\item{.y}{A list or atomic vector the same length as \code{.x}.}
+
+\item{.l}{A list of vectors, such as a data frame. The length of \code{.l}
+determines the number of arguments that \code{.f} will be called with. List
+names will be used if present.}
 }
 \value{
 A \code{patchwork} object

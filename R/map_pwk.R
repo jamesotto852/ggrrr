@@ -4,9 +4,13 @@
 #' converting the output into a patchwork object via `patchwork::wrap_plots()`.
 #' `f` should return a `ggplot` object, or some other object which works with patchwork
 #' (e.g. the results of `patchwork::wrap_elements()`).
-#' For details on the use of each function, see `?purrr::map`.
 #'
+#' For details on the use of each function, see `?purrr::map`, `?purrr::map2`, etc.
+#'
+#' @param .y A list or atomic vector the same length as `.x`.
 #' @inheritParams purrr::map
+#' @inheritParams purrr::map2
+#' @inheritParams purrr::pmap
 #' @param .patchwork_options A list of arguments passed to `patchwork::wrap_plots()`,
 #' useful for arranging plots in the resulting patchwork object. See examples for details.
 #'
